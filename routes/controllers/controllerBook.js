@@ -8,12 +8,12 @@ const CONSTANTS_MSG = require('../../utils/constantsMessage');
 const apiSuccessRes = globalFunction.apiSuccessRes;
 const apiErrorRes = globalFunction.apiErrorRes;
 
-
 async function createBook(req, res) {
 
   const registerParamSchema = Joi.object({
     title: Joi.string().required(),
     desc: Joi.string().required(),
+    auth: Joi.string().required(),
   });
   try {
     await registerParamSchema.validate(req.body, {
@@ -79,6 +79,7 @@ async function updateBook(req, res) {
     id: Joi.string().required(),
     title: Joi.string().required(),
     desc: Joi.string().required(),
+    auth: Joi.string().required(),
     videoLink: Joi.string().required(),
     imageLink: Joi.string().required(),
   });
@@ -120,7 +121,7 @@ async function deleteBook(req, res) {
   let modelData = await serviceBook.getBookById(req.body.id);
   if (modelData.statusCode === CONSTANTS.SUCCESS) {
     await modelData.data.remove();
-    return apiSuccessRes(req, res, CONSTANTS_MSG.USER_DELETE_SUCCESS);
+    return apiSuccessRes(req, res, CONSTANTS_MSG.BOOK_DELETE_SUCCESS);
   } else if (modelData.statusCode === CONSTANTS.NOT_FOUND) {
     return apiErrorRes(req, res, CONSTANTS_MSG.NOT_FOUND);
   } else {
@@ -151,11 +152,34 @@ async function updateBookStatus(req, res) {
     return apiErrorRes(req, res, CONSTANTS_MSG.FAILURE);
   }
 }
+
+async function getBookById(req, res) {
+
+  const registerParamSchema = Joi.object({
+    id: Joi.string().required(),
+  });
+
+  try {
+    await registerParamSchema.validate(req.body, {
+      abortEarly: true
+    });
+  } catch (error) {
+    return apiErrorRes(req, res, error.details[0].message);
+  }
+  let resData = await serviceBook.getBookById(req.body.id);
+  if (resData.statusCode === CONSTANTS.SUCCESS) {
+    return apiSuccessRes(req, res, 'Success', resData.data);
+  } else {
+    return apiErrorRes(req, res, 'Not found.', []);
+  }
+}
+
 router.post('/getBookList', getBookList);
 router.post('/deleteBook', deleteBook);
 router.post('/updateBook', updateBook);
 router.post('/createBook', createBook);
 router.post('/updateBookStatus', updateBookStatus);
 router.post('/getAllBook', getAllBook);
+router.post('/getBookById', getBookById);
 
 module.exports = router;

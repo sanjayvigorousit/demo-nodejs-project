@@ -1,0 +1,56 @@
+
+
+### Term and condition API 
+POST http://localhost:5000/api/v1/register HTTP/1.1
+Content-type: application/json
+
+{
+   "email":"admin33@gmail.com",
+   "password":"123456"
+}
+
+### Term and condition API 
+POST http://localhost:5000/api/v1/login HTTP/1.1
+Content-type: application/json
+
+{
+    "email":"admin@gmail.com",
+    "password":"123456"
+}
+
+### Term and condition API 
+POST http://localhost:5000/api/v1/getUserList HTTP/1.1
+Content-type: application/json
+
+{
+    "keyWord": "",
+    "pageNo": 1,
+    "size": 10
+}
+
+### Term and condition API 
+POST http://localhost:5000/api/v1/getUserById HTTP/1.1
+Content-type: application/json
+
+{
+    "id": "6555c2eae8d44e284f605887"
+}
+
+### Term and condition API 
+POST http://localhost:5000/api/v1/getUserByEmail HTTP/1.1
+Content-type: application/json
+
+{
+   "email": "admin33@gmail.com"
+}
+
+### Term and condition API 
+POST http://localhost:5000/api/v1/findEmail HTTP/1.1
+Content-type: application/json
+
+{
+   "email": "admin22@gmail.com"
+}
+
+
+

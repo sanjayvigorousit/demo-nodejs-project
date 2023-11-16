@@ -4,7 +4,6 @@ const db = require('../../db'),
 let Book = db.Book;
 let resultdb = global_fun.resultdb;
 
-
 let getBookById = async (id) => {
     try {
         let tempBook = await Book.findOne({
@@ -37,7 +36,7 @@ let getBookByName = async (title) => {
     }
 };
 let saveBook = async (data) => {
-    console.log("save data:------------------- ",data)
+    console.log("save data:------------------- ", data)
     try {
         let testBook = new Book(data);
         let responnse = await testBook.save();
@@ -72,7 +71,7 @@ let getBookList = async (data) => {
 };
 let getAllBook = async (data) => {
     try {
-        let resData = await Book.find({ "title": { "$exists": true } }).select({ "title": 1,"desc": 1,"videoLink": 1,"imageLink": 1, "_id": 1 }).sort({ title: 1 });
+        let resData = await Book.find({ "title": { "$exists": true } }).select({ "title": 1, "desc": 1, "videoLink": 1, "imageLink": 1, "_id": 1 }).sort({ title: 1 });
         return resultdb(CONSTANTS.SUCCESS, resData)
     } catch (error) {
         console.log(error);

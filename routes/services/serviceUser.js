@@ -23,7 +23,6 @@ let getUserByEmail = async (email) => {
 };
 
 let getUserById = async (id) => {
-    //logger.info('Enter get_user_by_id......', id.toString());
     try {
         var user = await User.findOne({
             _id: id.toString()
@@ -105,7 +104,6 @@ let getUserList = async (data) => {
         return resultdb(CONSTANTS.SUCCESS, tempData)
     } catch (error) {
         console.log(error);
-
         return resultdb(CONSTANTS.SERVER_ERROR, CONSTANTS.DATA_NULL)
     }
 };

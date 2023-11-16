@@ -9,6 +9,9 @@ let BookSchema = new Schema({
     desc: {
         type: String
     },
+    auth: {
+        type: String
+    },
     createdAt: {
         type: Number,
         default: () => Date.now()

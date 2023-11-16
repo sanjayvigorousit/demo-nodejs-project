@@ -12,9 +12,6 @@ const apiErrorRes = globalFunction.apiErrorRes;
 
 
 async function register(req, res) {
-  console.log('llllllllllllllllllllllll');
-
-
   const registerParamSchema = Joi.object({
     password: Joi.string().required(),
     email: Joi.string().email().regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).required()
@@ -160,9 +157,75 @@ async function changepassword(req, res) {
   }
 }
 
+async function getUserById(req, res) {
+
+  const registerParamSchema = Joi.object({
+    id: Joi.string().required(),
+  });
+
+  try {
+    await registerParamSchema.validate(req.body, {
+      abortEarly: true
+    });
+  } catch (error) {
+    return apiErrorRes(req, res, error.details[0].message);
+  }
+  let resData = await serviceUser.getUserById(req.body.id);
+  if (resData.statusCode === CONSTANTS.SUCCESS) {
+    return apiSuccessRes(req, res, 'Success', resData.data);
+  } else {
+    return apiErrorRes(req, res, 'Not found.', []);
+  }
+}
+
+async function getUserByEmail(req, res) {
+
+  const registerParamSchema = Joi.object({
+    email: Joi.string().required(),
+  });
+
+  try {
+    await registerParamSchema.validate(req.body, {
+      abortEarly: true
+    });
+  } catch (error) {
+    return apiErrorRes(req, res, error.details[0].message);
+  }
+  let resData = await serviceUser.getUserByEmail(req.body.email);
+  if (resData.statusCode === CONSTANTS.SUCCESS) {
+    return apiSuccessRes(req, res, 'Success', resData.data);
+  } else {
+    return apiErrorRes(req, res, 'Not found.', []);
+  }
+}
+
+async function findEmail(req, res) {
+
+  const registerParamSchema = Joi.object({
+    email: Joi.string().required(),
+  });
+
+  try {
+    await registerParamSchema.validate(req.body, {
+      abortEarly: true
+    });
+  } catch (error) {
+    return apiErrorRes(req, res, error.details[0].message);
+  }
+  let resData = await serviceUser.findEmail(req.body.email);
+  if (resData.statusCode === CONSTANTS.SUCCESS) {
+    return apiSuccessRes(req, res, 'Success', resData.data);
+  } else {
+    return apiErrorRes(req, res, 'Not found.', []);
+  }
+}
+
 router.post('/register', register);
 router.post('/getUserList', getUserList);
 router.post('/login', login);
 router.post('/changepassword', changepassword);
+router.post('/getUserById', getUserById);
+router.post('/getUserByEmail', getUserByEmail);
+router.post('/findEmail', findEmail);
 
 module.exports = router;
